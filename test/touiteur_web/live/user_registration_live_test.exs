@@ -40,7 +40,7 @@ defmodule TouiteurWeb.UserRegistrationLiveTest do
     test "creates account and logs the user in", %{conn: conn} do
       {:ok, lv, _html} = live(conn, ~p"/users/register")
 
-      email = unique_user_email()
+      %{email: email} = unique_user_identity()
       form = form(lv, "#registration_form", user: valid_user_attributes(email: email))
       render_submit(form)
       conn = follow_trigger_action(form, conn)

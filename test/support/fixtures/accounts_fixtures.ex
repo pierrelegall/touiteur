@@ -4,12 +4,23 @@ defmodule Touiteur.AccountsFixtures do
   entities via the `Touiteur.Accounts` context.
   """
 
-  def unique_user_email, do: "user#{System.unique_integer()}@example.com"
+  def unique_user_identity do
+    unique_integer = System.unique_integer([:positive])
+
+    %{
+      name: "User#{unique_integer}",
+      email: "user#{unique_integer}@example.com"
+    }
+  end
+
   def valid_user_password, do: "hello world!"
 
   def valid_user_attributes(attrs \\ %{}) do
+    %{name: name, email: email} = unique_user_identity()
+
     Enum.into(attrs, %{
-      email: unique_user_email(),
+      name: name,
+      email: email,
       password: valid_user_password()
     })
   end

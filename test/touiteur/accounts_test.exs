@@ -19,7 +19,7 @@ defmodule Touiteur.AccountsTest do
 
   describe "get_user_by_email_and_password/2" do
     test "does not return the user if the email does not exist" do
-      refute Accounts.get_user_by_email_and_password("unknown@example.com", "hello world!")
+      refute Accounts.get_user_by_email_and_password("unknown@example.com", "JohnDoe")
     end
 
     test "does not return the user if the password is not valid" do
@@ -49,19 +49,26 @@ defmodule Touiteur.AccountsTest do
   end
 
   describe "register_user/1" do
-    test "requires email and password to be set" do
+    test "requires name, email and password to be set" do
       {:error, changeset} = Accounts.register_user(%{})
 
       assert %{
+               name: ["can't be blank"],
                password: ["can't be blank"],
                email: ["can't be blank"]
              } = errors_on(changeset)
     end
 
-    test "validates email and password when given" do
-      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "not valid"})
+    test "validates name, email and password format" do
+      {:error, changeset} =
+        Accounts.register_user(%{
+          name: "not valid",
+          email: "not valid",
+          password: "not valid"
+        })
 
       assert %{
+               name: ["must have only letters, numbers and _"],
                email: ["must have the @ sign and no spaces"],
                password: ["should be at least 12 character(s)"]
              } = errors_on(changeset)
@@ -85,7 +92,7 @@ defmodule Touiteur.AccountsTest do
     end
 
     test "registers users with a hashed password" do
-      email = unique_user_email()
+      %{email: email} = unique_user_identity()
       {:ok, user} = Accounts.register_user(valid_user_attributes(email: email))
       assert user.email == email
       assert is_binary(user.hashed_password)
@@ -97,11 +104,11 @@ defmodule Touiteur.AccountsTest do
   describe "change_user_registration/2" do
     test "returns a changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_registration(%User{})
-      assert changeset.required == [:password, :email]
+      assert changeset.required == [:password, :email, :name]
     end
 
     test "allows fields to be set" do
-      email = unique_user_email()
+      %{email: email} = unique_user_identity()
       password = valid_user_password()
 
       changeset =
@@ -160,14 +167,15 @@ defmodule Touiteur.AccountsTest do
     end
 
     test "validates current password", %{user: user} do
-      {:error, changeset} =
-        Accounts.apply_user_email(user, "invalid", %{email: unique_user_email()})
+      %{email: email} = unique_user_identity()
+
+      {:error, changeset} = Accounts.apply_user_email(user, "invalid", %{email: email})
 
       assert %{current_password: ["is not valid"]} = errors_on(changeset)
     end
 
     test "applies the email without persisting it", %{user: user} do
-      email = unique_user_email()
+      %{email: email} = unique_user_identity()
       {:ok, user} = Accounts.apply_user_email(user, valid_user_password(), %{email: email})
       assert user.email == email
       assert Accounts.get_user!(user.id).email != email
@@ -196,7 +204,7 @@ defmodule Touiteur.AccountsTest do
   describe "update_user_email/2" do
     setup do
       user = user_fixture()
-      email = unique_user_email()
+      %{email: email} = unique_user_identity()
 
       token =
         extract_user_token(fn url ->

@@ -33,7 +33,7 @@ defmodule TouiteurWeb.UserSettingsLiveTest do
     end
 
     test "updates the user email", %{conn: conn, password: password, user: user} do
-      new_email = unique_user_email()
+      %{email: new_email} = unique_user_identity()
 
       {:ok, lv, _html} = live(conn, ~p"/users/settings")
 
@@ -161,7 +161,7 @@ defmodule TouiteurWeb.UserSettingsLiveTest do
   describe "confirm email" do
     setup %{conn: conn} do
       user = user_fixture()
-      email = unique_user_email()
+      %{email: email} = unique_user_identity()
 
       token =
         extract_user_token(fn url ->
