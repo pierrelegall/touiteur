@@ -1,4 +1,6 @@
 defmodule TouiteurWeb.ErrorHTML do
+  @moduledoc false
+
   use TouiteurWeb, :html
 
   # If you want to customize your error pages,
