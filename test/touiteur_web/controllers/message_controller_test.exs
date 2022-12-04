@@ -14,7 +14,10 @@ defmodule TouiteurWeb.MessageControllerTest do
 
       test "lists all messages", %{conn: conn} do
         conn = get(conn, ~p"/")
-        assert html_response(conn, 200) =~ "Listing Messages"
+        html = html_response(conn, 200)
+
+        assert html =~ "Listing Messages"
+        assert html =~ "New Message"
       end
     end
 
@@ -122,7 +125,10 @@ defmodule TouiteurWeb.MessageControllerTest do
     describe "index" do
       test "lists all messages", %{conn: conn} do
         conn = get(conn, ~p"/")
-        assert html_response(conn, 200) =~ "Listing Messages"
+        html = html_response(conn, 200)
+
+        assert html =~ "Listing Messages"
+        refute html =~ "New Message"
       end
     end
 

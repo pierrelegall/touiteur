@@ -1,9 +1,11 @@
 <.header>
   Listing Messages
   <:actions>
-    <.link href={~p"/messages/new"}>
-      <.button>New Message</.button>
-    </.link>
+    <%= if @current_user do %>
+      <.link href={~p"/messages/new"}>
+        <.button>New Message</.button>
+      </.link>
+    <% end %>
   </:actions>
 </.header>
 
