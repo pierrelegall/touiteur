@@ -47,14 +47,13 @@ defmodule TouiteurWeb.MessageControllerTest do
     describe "create message" do
       setup [:log_in_user]
 
-      test "redirects to show when data is valid", %{conn: conn} do
+      test "redirects to message list when data is valid", %{conn: conn} do
         conn = post(conn, ~p"/messages", message: @create_attrs)
 
-        assert %{id: id} = redirected_params(conn)
-        assert redirected_to(conn) == ~p"/messages/#{id}"
+        assert redirected_to(conn) == ~p"/"
 
-        conn = get(conn, ~p"/messages/#{id}")
-        assert html_response(conn, 200) =~ "Message #{id}"
+        conn = get(conn, ~p"/")
+        assert html_response(conn, 200) =~ @create_attrs.content
       end
 
       test "renders errors when data is invalid", %{conn: conn} do

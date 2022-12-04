@@ -14,10 +14,10 @@ defmodule TouiteurWeb.MessageController do
     message = Map.put(message_params, "author_id", author_id)
 
     case Communication.create_message(message) do
-      {:ok, message} ->
+      {:ok, _message} ->
         conn
         |> put_flash(:info, "Message created successfully.")
-        |> redirect(to: ~p"/messages/#{message}")
+        |> redirect(to: ~p"/")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, :new, changeset: changeset)
