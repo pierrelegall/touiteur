@@ -10,7 +10,7 @@ defmodule TouiteurWeb.MessageControllerTest do
     @invalid_attrs %{content: nil, author_id: nil}
 
     describe "index" do
-      setup [:log_in_user]
+      setup [:log_in_user, :create_message]
 
       test "lists all messages", %{conn: conn} do
         conn = get(conn, ~p"/")
@@ -18,6 +18,9 @@ defmodule TouiteurWeb.MessageControllerTest do
 
         assert html =~ "Listing Messages"
         assert html =~ "New Message"
+
+        assert html =~ "Edit"
+        assert html =~ "Delete"
       end
     end
 
@@ -119,12 +122,17 @@ defmodule TouiteurWeb.MessageControllerTest do
     @invalid_attrs %{content: nil, author_id: nil}
 
     describe "index" do
+      setup [:create_message]
+
       test "lists all messages", %{conn: conn} do
         conn = get(conn, ~p"/")
         html = html_response(conn, 200)
 
         assert html =~ "Listing Messages"
         refute html =~ "New Message"
+
+        refute html =~ "Edit"
+        refute html =~ "Delete"
       end
     end
 
