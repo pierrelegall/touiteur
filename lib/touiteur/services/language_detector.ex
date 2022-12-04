@@ -3,13 +3,39 @@ defmodule Touiteur.Services.LanguageDetector do
   Service of language detection.
   """
 
-  alias Whatlangex
+  @detection_engine Application.compile_env(:touiteur, :language_detection_engine, Whatlangex)
 
+  @doc """
+  Detect the language of the sentence.
+
+  ## Examples
+
+      iex> detect("This is a nice sentence.")
+      "eng"
+
+      iex> detect("")
+      "?"
+
+  """
+  @spec detect(String.t()) :: String.t()
   def detect(sentence) do
-    Whatlangex.detect(sentence)
+    @detection_engine.detect(sentence)
   end
 
+  @doc """
+  Get the humanized language name by code.
+
+  ## Examples
+
+      iex> code_to_name("eng")
+      "English"
+
+      iex> code_to_name("abc")
+      "?"
+
+  """
+  @spec code_to_name(String.t()) :: String.t()
   def code_to_name(code) do
-    Whatlangex.code_to_name(code)
+    @detection_engine.code_to_name(code)
   end
 end

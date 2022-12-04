@@ -34,3 +34,6 @@ config :logger, level: :warning
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Language detection engine selection
+config :touiteur, :language_detection_engine, Touiteur.Services.LanguageDetectionEngineMock
