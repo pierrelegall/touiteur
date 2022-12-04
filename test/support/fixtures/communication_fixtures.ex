@@ -16,6 +16,7 @@ defmodule Touiteur.CommunicationFixtures do
       attrs
       |> Enum.into(%{
         content: "some content",
+        supposed_language: nil,
         author_id: author_id
       })
       |> Touiteur.Communication.create_message()

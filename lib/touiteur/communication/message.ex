@@ -9,6 +9,7 @@ defmodule Touiteur.Communication.Message do
 
   schema "messages" do
     field :content, :string
+    field :supposed_language, :string
     belongs_to :author, User
 
     timestamps()
@@ -17,7 +18,7 @@ defmodule Touiteur.Communication.Message do
   @doc false
   def changeset(message, attrs) do
     message
-    |> cast(attrs, [:content, :author_id])
+    |> cast(attrs, [:content, :supposed_language, :author_id])
     |> cast_assoc(:author)
     |> validate_required([:content])
   end
