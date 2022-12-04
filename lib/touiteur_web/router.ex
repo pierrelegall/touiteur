@@ -20,13 +20,13 @@ defmodule TouiteurWeb.Router do
   scope "/", TouiteurWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    resources "/messages", MessageController, except: [:index, :show]
+    resources "/messages", MessageController, except: [:show]
   end
 
   scope "/", TouiteurWeb do
     pipe_through :browser
 
-    get "/", MessageController, :index
+    live "/", MessageIndexLive, :index
     resources "/messages", MessageController, only: [:show]
   end
 

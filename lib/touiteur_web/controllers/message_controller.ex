@@ -4,11 +4,6 @@ defmodule TouiteurWeb.MessageController do
   alias Touiteur.Communication
   alias Touiteur.Communication.Message
 
-  def index(conn, _params) do
-    messages = Communication.list_messages()
-    render(conn, :index, messages: messages)
-  end
-
   def new(conn, _params) do
     changeset = Communication.change_message(%Message{})
     render(conn, :new, changeset: changeset)

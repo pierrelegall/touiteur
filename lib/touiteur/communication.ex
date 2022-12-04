@@ -5,6 +5,7 @@ defmodule Touiteur.Communication do
 
   import Ecto.Query, warn: false
   alias Touiteur.Repo
+  alias Phoenix.PubSub
 
   alias Touiteur.Communication.Message
 
@@ -53,6 +54,14 @@ defmodule Touiteur.Communication do
     %Message{}
     |> Message.changeset(attrs)
     |> Repo.insert()
+    |> case do
+      {:ok, message} ->
+        broadcast_new_message(message)
+        {:ok, message}
+
+      error ->
+        error
+    end
   end
 
   @doc """
@@ -100,5 +109,9 @@ defmodule Touiteur.Communication do
   """
   def change_message(%Message{} = message, attrs \\ %{}) do
     Message.changeset(message, attrs)
+  end
+
+  defp broadcast_new_message(%Message{} = message) do
+    PubSub.broadcast(Touiteur.PubSub, "new_message", {:new, message})
   end
 end
