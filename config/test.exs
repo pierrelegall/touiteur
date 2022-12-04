@@ -37,3 +37,6 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Language detection engine selection
 config :touiteur, :language_detection_engine, Touiteur.Services.LanguageDetectionEngineMock
+
+# Disabled repo for asynchronous calls
+config :touiteur, :repo, Touiteur.RepoMock

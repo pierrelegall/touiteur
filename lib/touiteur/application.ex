@@ -17,7 +17,9 @@ defmodule Touiteur.Application do
       # Start Finch
       {Finch, name: Touiteur.Finch},
       # Start the Endpoint (http/https)
-      TouiteurWeb.Endpoint
+      TouiteurWeb.Endpoint,
+      # Language detection
+      Touiteur.Services.MessageSupposedLanguageSetter
       # Start a worker by calling: Touiteur.Worker.start_link(arg)
       # {Touiteur.Worker, arg}
     ]
