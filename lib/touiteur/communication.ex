@@ -4,6 +4,7 @@ defmodule Touiteur.Communication do
   """
 
   import Ecto.Query, warn: false
+  alias Touiteur.Accounts
   alias Touiteur.Repo
   alias Phoenix.PubSub
 
@@ -125,6 +126,9 @@ defmodule Touiteur.Communication do
   end
 
   defp broadcast_new_message(%Message{} = message) do
+    author = Repo.get!(Accounts.User, message.author_id)
+    message = %Message{message | author: author}
+
     PubSub.broadcast(Touiteur.PubSub, "new_message", {:new, message})
   end
 end

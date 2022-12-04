@@ -12,11 +12,11 @@ defmodule TouiteurWeb.MessageIndexLiveTest do
       user = user_fixture()
       {:ok, view, _html} = live(conn, ~p"/")
 
-      refute render(view) =~ "Hello"
+      refute render(view) =~ "@#{user.name}: Hello"
 
       create_message(%{content: "Hello", author_id: user.id})
 
-      assert render(view) =~ "Hello"
+      assert render(view) =~ "@#{user.name}: Hello"
     end
   end
 

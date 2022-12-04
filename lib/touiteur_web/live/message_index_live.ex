@@ -22,7 +22,7 @@ defmodule TouiteurWeb.MessageIndexLive do
     </.header>
 
     <.table id="messages" rows={@messages} row_click={&JS.navigate(~p"/messages/#{&1}")}>
-      <:col :let={message} label="Content"><%= message.content %></:col>
+      <:col :let={message} label="Content">@<%= message.author.name %>: <%= message.content %></:col>
 
       <:action :let={message}>
         <%= if @current_user do %>
@@ -46,7 +46,7 @@ defmodule TouiteurWeb.MessageIndexLive do
   def mount(_params, _session, socket) do
     PubSub.subscribe(Touiteur.PubSub, "new_message")
 
-    messages = Communication.list_messages()
+    messages = Communication.list_messages([:author])
 
     {:ok, assign(socket, messages: messages)}
   end
