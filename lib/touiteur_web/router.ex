@@ -20,7 +20,7 @@ defmodule TouiteurWeb.Router do
   scope "/", TouiteurWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/", MessageController, :index
     resources "/messages", MessageController
   end
 

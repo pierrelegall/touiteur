@@ -9,6 +9,11 @@ defmodule TouiteurWeb.MessageControllerTest do
   @invalid_attrs %{content: nil, author_id: nil}
 
   describe "index" do
+    test "lists all messages on home page", %{conn: conn} do
+      conn = get(conn, ~p"/")
+      assert html_response(conn, 200) =~ "Listing Messages"
+    end
+
     test "lists all messages", %{conn: conn} do
       conn = get(conn, ~p"/messages")
       assert html_response(conn, 200) =~ "Listing Messages"
@@ -18,6 +23,7 @@ defmodule TouiteurWeb.MessageControllerTest do
   describe "new message" do
     test "renders form", %{conn: conn} do
       conn = get(conn, ~p"/messages/new")
+
       assert html_response(conn, 200) =~ "New Message"
     end
   end
