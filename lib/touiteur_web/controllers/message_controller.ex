@@ -15,7 +15,10 @@ defmodule TouiteurWeb.MessageController do
   end
 
   def create(conn, %{"message" => message_params}) do
-    case Communication.create_message(message_params) do
+    author_id = conn.assigns.current_user.id
+    message = Map.put(message_params, "author_id", author_id)
+
+    case Communication.create_message(message) do
       {:ok, message} ->
         conn
         |> put_flash(:info, "Message created successfully.")

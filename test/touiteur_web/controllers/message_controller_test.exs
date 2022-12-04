@@ -45,10 +45,7 @@ defmodule TouiteurWeb.MessageControllerTest do
       setup [:log_in_user]
 
       test "redirects to show when data is valid", %{conn: conn} do
-        %{id: author_id} = AccountsFixtures.user_fixture()
-        message = Map.put(@create_attrs, :author_id, author_id)
-
-        conn = post(conn, ~p"/messages", message: message)
+        conn = post(conn, ~p"/messages", message: @create_attrs)
 
         assert %{id: id} = redirected_params(conn)
         assert redirected_to(conn) == ~p"/messages/#{id}"
@@ -116,7 +113,6 @@ defmodule TouiteurWeb.MessageControllerTest do
     use TouiteurWeb.ConnCase
 
     import Touiteur.CommunicationFixtures
-    alias Touiteur.AccountsFixtures
 
     @create_attrs %{content: "some content"}
     @update_attrs %{content: "some updated content"}
@@ -152,10 +148,7 @@ defmodule TouiteurWeb.MessageControllerTest do
 
     describe "create message" do
       test "redirects to show when data is valid", %{conn: conn} do
-        %{id: author_id} = AccountsFixtures.user_fixture()
-        message = Map.put(@create_attrs, :author_id, author_id)
-
-        conn = post(conn, ~p"/messages", message: message)
+        conn = post(conn, ~p"/messages", message: @create_attrs)
 
         assert redirected_to(conn) == ~p"/users/log_in"
       end
