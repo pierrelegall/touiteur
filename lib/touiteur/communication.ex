@@ -19,7 +19,9 @@ defmodule Touiteur.Communication do
 
   """
   def list_messages do
-    Repo.all(Message)
+    query = from m in Message, order_by: [desc: m.inserted_at]
+
+    Repo.all(query)
   end
 
   @doc """

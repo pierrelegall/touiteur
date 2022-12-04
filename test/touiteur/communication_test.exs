@@ -11,9 +11,20 @@ defmodule Touiteur.CommunicationTest do
 
     @invalid_attrs %{content: nil}
 
-    test "list_messages/0 returns all messages" do
-      message = message_fixture()
-      assert Communication.list_messages() == [message]
+    # WARN: found a solution to avoid the use of :timer.sleep/1
+    test "list_messages/0 returns all messages ordered my inserted_at" do
+      message1 = message_fixture()
+      assert Communication.list_messages() == [message1]
+
+      :timer.sleep(1000)
+
+      message2 = message_fixture()
+      assert Communication.list_messages() == [message2, message1]
+
+      :timer.sleep(1000)
+
+      message3 = message_fixture()
+      assert Communication.list_messages() == [message3, message2, message1]
     end
 
     test "get_message!/1 returns the message with given id" do
