@@ -18,10 +18,16 @@ defmodule TouiteurWeb.Router do
   end
 
   scope "/", TouiteurWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    resources "/messages", MessageController, except: [:index, :show]
+  end
+
+  scope "/", TouiteurWeb do
     pipe_through :browser
 
     get "/", MessageController, :index
-    resources "/messages", MessageController
+    resources "/messages", MessageController, only: [:show]
   end
 
   # Other scopes may use custom stacks.
