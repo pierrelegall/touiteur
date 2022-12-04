@@ -2,6 +2,7 @@ defmodule Touiteur.CommunicationTest do
   use Touiteur.DataCase
 
   alias Touiteur.Communication
+  alias Touiteur.Accounts.User
 
   describe "messages" do
     alias Touiteur.Communication.Message
@@ -15,6 +16,7 @@ defmodule Touiteur.CommunicationTest do
     test "list_messages/0 returns all messages ordered my inserted_at" do
       message1 = message_fixture()
       assert Communication.list_messages() == [message1]
+      assert %Ecto.Association.NotLoaded{} = message1.author
 
       :timer.sleep(1000)
 
@@ -25,11 +27,19 @@ defmodule Touiteur.CommunicationTest do
 
       message3 = message_fixture()
       assert Communication.list_messages() == [message3, message2, message1]
+
+      [message | _other_messages] = Communication.list_messages([:author])
+      assert %User{} = message.author
     end
 
     test "get_message!/1 returns the message with given id" do
-      message = message_fixture()
-      assert Communication.get_message!(message.id) == message
+      message_attrs = message_fixture()
+      message = Communication.get_message!(message_attrs.id)
+      assert message == message_attrs
+      assert %Ecto.Association.NotLoaded{} = Communication.get_message!(message.id).author
+
+      message = Communication.get_message!(message.id, [:author])
+      assert %User{} = message.author
     end
 
     test "create_message/1 with valid data creates a message" do

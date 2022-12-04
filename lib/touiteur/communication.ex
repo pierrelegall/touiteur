@@ -17,9 +17,15 @@ defmodule Touiteur.Communication do
       iex> list_messages()
       [%Message{}, ...]
 
+      iex> list_messages([:author])
+      [%Message{..., author: %User{}}, ...]
+
   """
-  def list_messages do
-    query = from m in Message, order_by: [desc: m.inserted_at]
+  def list_messages(preloads \\ []) do
+    query =
+      from m in Message,
+        order_by: [desc: m.inserted_at],
+        preload: ^preloads
 
     Repo.all(query)
   end
@@ -32,13 +38,18 @@ defmodule Touiteur.Communication do
   ## Examples
 
       iex> get_message!(123)
-      %Message{}
+      %Message{...}
+
+      iex> get_message!(123, [:author])
+      %Message{..., author: %User{}}
 
       iex> get_message!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_message!(id), do: Repo.get!(Message, id)
+  def get_message!(id, preloads \\ []) do
+    Message |> preload(^preloads) |> Repo.get!(id)
+  end
 
   @doc """
   Creates a message.
