@@ -12,7 +12,7 @@ defmodule Touiteur.Services.StatsHolder do
     GenServer.start_link(__MODULE__, :ok, name: args[:name] || __MODULE__)
   end
 
-  def get_stats(server \\ __MODULE__)  do
+  def get_stats(server \\ __MODULE__) do
     GenServer.call(server, :get_stats)
   end
 
