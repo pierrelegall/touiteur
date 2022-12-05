@@ -11,11 +11,11 @@ defmodule Touiteur.Services.MessageSupposedLanguageSetter do
   alias Touiteur.Services.LanguageDetector
   alias Touiteur.Communication.Message
 
-  def start_link(_args) do
-    GenServer.start_link(__MODULE__, :ok)
+  def start_link(args) do
+    GenServer.start_link(__MODULE__, :ok, name: args[:name] || __MODULE__)
   end
 
-  def get_state(server) do
+  def get_state(server \\ __MODULE__) do
     GenServer.call(server, :get_state)
   end
 

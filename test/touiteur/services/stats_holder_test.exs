@@ -5,7 +5,7 @@ defmodule Touiteur.Services.StatsHolderTest do
   alias Touiteur.Communication.Message
 
   setup do
-    stats_holder = start_supervised!(StatsHolder)
+    stats_holder = start_supervised!({StatsHolder, name: TestStatsHolder})
     %{stats_holder: stats_holder}
   end
 
