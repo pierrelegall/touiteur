@@ -17,8 +17,8 @@ defmodule Touiteur.Services.StatsBuilder do
     result = Repo.all(query)
 
     result
+    |> Enum.filter(fn [lang, _count] -> lang != nil end)
     |> Enum.map(fn [lang, count] -> {lang, count} end)
-    |> Enum.filter(fn {lang, _count} -> lang != "nil" end)
     |> Enum.into(%{})
   end
 end

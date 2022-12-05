@@ -10,7 +10,7 @@ defmodule Touiteur.Services.StatsBuilderTest do
       message_fixture(%{supposed_language: "eng"})
       message_fixture(%{supposed_language: "fra"})
       message_fixture(%{supposed_language: "spa"})
-      message_fixture(%{supposed_language: "nil"})
+      message_fixture(%{supposed_language: nil})
 
       assert build_language_stats() == %{
                "eng" => 2,
