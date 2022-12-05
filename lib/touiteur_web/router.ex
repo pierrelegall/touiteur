@@ -27,6 +27,7 @@ defmodule TouiteurWeb.Router do
     pipe_through :browser
 
     live "/", MessageIndexLive, :index
+    live "/stats", StatsIndexLive, :index
     resources "/messages", MessageController, only: [:show]
   end
 

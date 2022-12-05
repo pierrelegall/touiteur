@@ -19,7 +19,9 @@ defmodule Touiteur.Application do
       # Start the Endpoint (http/https)
       TouiteurWeb.Endpoint,
       # Language detection
-      Touiteur.Services.MessageSupposedLanguageSetter
+      Touiteur.Services.MessageSupposedLanguageSetter,
+      # Stats holding
+      Touiteur.Services.StatsHolder
       # Start a worker by calling: Touiteur.Worker.start_link(arg)
       # {Touiteur.Worker, arg}
     ]

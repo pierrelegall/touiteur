@@ -20,6 +20,12 @@
       >
         Messages
       </.link>
+      <.link
+        href={~p"/stats"}
+        class="text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
+      >
+        Stats
+      </.link>
       <%= if @current_user do %>
         <.link
           href={~p"/users/settings"}
