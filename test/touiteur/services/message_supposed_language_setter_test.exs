@@ -5,7 +5,9 @@ defmodule Touiteur.Services.MessageSupposedLanguageSetterTest do
   alias Touiteur.Communication.Message
 
   setup do
-    detector = start_supervised!(MessageSupposedLanguageSetter)
+    detector =
+      start_supervised!({MessageSupposedLanguageSetter, name: TestMessageSupposedLanguageSetter})
+
     %{detector: detector}
   end
 
