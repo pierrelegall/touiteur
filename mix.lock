@@ -47,5 +47,5 @@
   "toml": {:hex, :toml, "0.7.0", "fbcd773caa937d0c7a02c301a1feea25612720ac3fa1ccb8bfd9d30d822911de", [:mix], [], "hexpm", "0690246a2478c1defd100b0c9b89b4ea280a22be9a7b313a8a058a2408a2fa70"},
   "websock": {:hex, :websock, "0.4.3", "184ac396bdcd3dfceb5b74c17d221af659dd559a95b1b92041ecb51c9b728093", [:mix], [], "hexpm", "5e4dd85f305f43fd3d3e25d70bec4a45228dfed60f0f3b072d8eddff335539cf"},
   "websock_adapter": {:hex, :websock_adapter, "0.4.5", "30038a3715067f51a9580562c05a3a8d501126030336ffc6edb53bf57d6d2d26", [:mix], [{:bandit, "~> 0.6", [hex: :bandit, repo: "hexpm", optional: true]}, {:plug, "~> 1.14", [hex: :plug, repo: "hexpm", optional: false]}, {:plug_cowboy, "~> 2.6", [hex: :plug_cowboy, repo: "hexpm", optional: true]}, {:websock, "~> 0.4", [hex: :websock, repo: "hexpm", optional: false]}], "hexpm", "1d9812dc7e703c205049426fd4fe0852a247a825f91b099e53dc96f68bafe4c8"},
-  "whatlangex": {:git, "https://github.com/pierrelegall/whatlangex.git", "dafea0470915b1320cbd0893288a2ed3ef718e96", [tag: "v0.1.0"]},
+  "whatlangex": {:hex, :whatlangex, "0.2.1", "44bab779ee772ab005c090a6ffa2ae47fd4515ac626cb20c02b1143e7472368f", [:mix], [{:rustler, "~> 0.26.0", [hex: :rustler, repo: "hexpm", optional: false]}], "hexpm", "57be0705eaeaf5bba66ea26feca72ddeb3ac51b67d89ea6ea39437a21c31280f"},
 }
