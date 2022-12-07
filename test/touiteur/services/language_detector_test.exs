@@ -26,7 +26,7 @@ defmodule Touiteur.Services.LanguageDetectorTest do
       end
     end
 
-    test "return ? if empty sentence" do
+    test "return :none if empty sentence" do
       assert detect("") == :none
     end
   end
@@ -38,8 +38,20 @@ defmodule Touiteur.Services.LanguageDetectorTest do
       assert code_to_name("spa") == {:ok, "Español"}
     end
 
-    test "returns ? if unknown code" do
+    test "returns :not_found if unknown code" do
       assert code_to_name("abc") == :not_found
+    end
+  end
+
+  describe "#code_to_eng_name" do
+    test "returns a humaized language string" do
+      assert code_to_eng_name("eng") == {:ok, "English"}
+      assert code_to_eng_name("fra") == {:ok, "French"}
+      assert code_to_eng_name("spa") == {:ok, "Spanish"}
+    end
+
+    test "returns :not_found if unknown code" do
+      assert code_to_eng_name("abc") == :not_found
     end
   end
 end

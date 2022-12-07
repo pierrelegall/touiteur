@@ -47,19 +47,36 @@ defmodule Touiteur.Services.LanguageDetector do
   end
 
   @doc """
-  Get the humanized language name by code.
+  Get the humanized language name (in English) by code.
 
   ## Examples
 
-      iex> code_to_name("eng")
-      "English"
+      iex> code_to_eng_name("jpn")
+      "Japanese"
+
+      iex> code_to_eng_name("abc")
+      :not_found
+
+  """
+  @spec code_to_eng_name(String.t()) :: {:ok, String.t()} | :none
+  def code_to_eng_name(code) do
+    Whatlangex.code_to_eng_name(code)
+  end
+
+  @doc """
+  Get the humanized language name (native) by code.
+
+  ## Examples
+
+      iex> code_to_name("slv")
+      "Slovenščina"
 
       iex> code_to_name("abc")
-      "?"
+      :not_found
 
   """
   @spec code_to_name(String.t()) :: {:ok, String.t()} | :none
   def code_to_name(code) do
-    @detection_engine.code_to_name(code)
+    Whatlangex.code_to_name(code)
   end
 end
