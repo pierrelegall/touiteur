@@ -40,7 +40,7 @@ defmodule TouiteurWeb.StatsIndexLive do
 
   defp format_stats(stats) do
     for {lang, count} <- stats do
-      {:ok, lang_fullname} = LanguageDetector.code_to_name(lang)
+      {:ok, lang_fullname} = LanguageDetector.code_to_eng_name(lang)
 
       %Stat{
         id: lang,
