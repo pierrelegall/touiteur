@@ -17,7 +17,7 @@ defmodule Touiteur.Services.LanguageDetector do
       "?"
 
   """
-  @spec detect(String.t()) :: String.t()
+  @spec detect(String.t()) :: {:ok, Whatlangex.Detection.t()} | :not_found
   def detect(sentence) do
     @detection_engine.detect(sentence)
   end
@@ -34,7 +34,7 @@ defmodule Touiteur.Services.LanguageDetector do
       "?"
 
   """
-  @spec code_to_name(String.t()) :: String.t()
+  @spec code_to_name(String.t()) :: {:ok, String.t()} | :none
   def code_to_name(code) do
     @detection_engine.code_to_name(code)
   end

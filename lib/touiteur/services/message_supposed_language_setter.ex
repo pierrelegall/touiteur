@@ -32,12 +32,12 @@ defmodule Touiteur.Services.MessageSupposedLanguageSetter do
 
   @impl true
   def handle_info({:new, message}, _state) do
-    lang = LanguageDetector.detect(message.content)
+    {:ok, detection} = LanguageDetector.detect(message.content)
 
-    Message.changeset(message, %{supposed_language: lang})
+    Message.changeset(message, %{supposed_language: detection.lang})
     |> @repo.update!()
 
-    updated_message = %{message | supposed_language: lang}
+    updated_message = %{message | supposed_language: detection.lang}
 
     Phoenix.PubSub.broadcast(
       Touiteur.PubSub,

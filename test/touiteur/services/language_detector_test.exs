@@ -1,4 +1,5 @@
 defmodule Touiteur.Services.LanguageDetectorTest do
+  alias Touiteur.Services.LanguageDetector
   use ExUnit.Case, async: true
 
   import Touiteur.Services.LanguageDetector
@@ -11,25 +12,34 @@ defmodule Touiteur.Services.LanguageDetectorTest do
 
   describe "#detect" do
     test "returns a language code if not empty sentence" do
-      assert detect(@sentences.eng) =~ ~r/.../
-      assert detect(@sentences.fra) =~ ~r/.../
-      assert detect(@sentences.spa) =~ ~r/.../
+      for {_, sentence} <- @sentences do
+        {:ok, detection} = LanguageDetector.detect(sentence)
+        assert detection.lang =~ ~r/^...$/
+      end
+    end
+
+    test "returns a confidence code if not empty sentence" do
+      for {_, sentence} <- @sentences do
+        {:ok, detection} = LanguageDetector.detect(sentence)
+        assert detection.confidence >= 0
+        assert detection.confidence <= 1
+      end
     end
 
     test "return ? if empty sentence" do
-      assert detect("") == "?"
+      assert detect("") == :none
     end
   end
 
   describe "#code_to_name" do
     test "returns a humaized language string" do
-      assert code_to_name("eng") == "English"
-      assert code_to_name("fra") == "Français"
-      assert code_to_name("spa") == "Español"
+      assert code_to_name("eng") == {:ok, "English"}
+      assert code_to_name("fra") == {:ok, "Français"}
+      assert code_to_name("spa") == {:ok, "Español"}
     end
 
     test "returns ? if unknown code" do
-      assert code_to_name("abc") == "?"
+      assert code_to_name("abc") == :not_found
     end
   end
 end
