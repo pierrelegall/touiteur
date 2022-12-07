@@ -3,7 +3,26 @@ defmodule Touiteur.Services.LanguageDetector do
   Service of language detection.
   """
 
-  @detection_engine Application.compile_env(:touiteur, :language_detection_engine, Whatlangex)
+  defmodule Detection do
+    @moduledoc """
+    Module of the internal detection type.
+    """
+
+    @type t :: %__MODULE__{
+            lang: String.t(),
+            script: String.t(),
+            confidence: float
+          }
+
+    defstruct [:lang, :script, :confidence]
+
+    def convert_from_whatlangex_detection(whatlang_detection) do
+      case whatlang_detection do
+        :none -> :none
+        {:ok, detection} -> {:ok, %{detection | __struct__: __MODULE__}}
+      end
+    end
+  end
 
   @doc """
   Detect the language of the sentence.
@@ -11,15 +30,20 @@ defmodule Touiteur.Services.LanguageDetector do
   ## Examples
 
       iex> detect("This is a nice sentence.")
-      "eng"
+      %LanguageDetector.Detection{
+        lang: "eng",
+        script: "Latin",
+        confidence: 0.3456
+      }
 
       iex> detect("")
-      "?"
+      :none
 
   """
-  @spec detect(String.t()) :: {:ok, Whatlangex.Detection.t()} | :not_found
+  @spec detect(String.t()) :: {:ok, Detection.t()} | :not_found
   def detect(sentence) do
-    @detection_engine.detect(sentence)
+    Whatlangex.detect(sentence)
+    |> Detection.convert_from_whatlangex_detection()
   end
 
   @doc """
